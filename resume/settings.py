@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #extends
+    'rest_framework',
+    #my apps
     'frontend.apps.FrontendConfig',
+    'users.apps.UsersConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'resume.wsgi.application'
+AUTH_USER_MODEL = 'users.MyUser'
 
 
 # Database
