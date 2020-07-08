@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #extends
     'rest_framework',
+    'rest_framework.authtoken',
     #my apps
     'frontend.apps.FrontendConfig',
     'users.apps.UsersConfig',
-    'api.apps.ApiConfig',
+    'userProfile.apps.UserprofileConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'resume.wsgi.application'
 AUTH_USER_MODEL = 'users.MyUser'
 
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+}
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+       'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+   ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
