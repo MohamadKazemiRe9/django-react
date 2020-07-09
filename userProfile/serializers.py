@@ -9,7 +9,8 @@ from userProfile.models import Profile
 class SkillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skills
-        fields = ('id','title','level')
+        fields = ('id','profile','title','level')
+
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
@@ -28,8 +29,8 @@ class UserSerializers(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializers(many=False)
-    skill = SkillsSerializer(many=True)
+    skills = SkillsSerializer(many=True)
     education = EducationSerializer(many=True)
     class Meta:
         model = Profile
-        fields = ("id",'user',"skill","education")
+        fields = ("id",'skills','user',"education","description")

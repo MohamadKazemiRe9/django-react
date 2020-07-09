@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     #extends
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     #my apps
-    'frontend.apps.FrontendConfig',
     'users.apps.UsersConfig',
     'userProfile.apps.UserprofileConfig',
 ]
@@ -54,14 +54,22 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'resume.urls'
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR,'client/build'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,3 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'client/build/static'),
+]

@@ -3,7 +3,8 @@ from django.conf import settings
 
 class Profile (models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
-    skill = models.ManyToManyField("Skills" , related_name="skills")
+    description = models.TextField(null=True,blank=True)
+    # skill = models.ManyToManyField("Skills" , related_name="skills")
     education = models.ManyToManyField("Education" , related_name="education")
 
     def __str__(self):
@@ -20,6 +21,7 @@ SKILL_LEVEL = (
 
 
 class Skills (models.Model):
+    profile = models.ForeignKey("Profile", related_name='skills', on_delete=models.CASCADE)
     title = models.CharField(max_length=30,null=True,blank=True)
     level = models.CharField(max_length=1,choices=SKILL_LEVEL,default="1")
     

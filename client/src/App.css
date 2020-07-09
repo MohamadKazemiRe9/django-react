@@ -1,0 +1,11 @@
+.contain {
+  position: relative;
+}
+.top{
+  width: 100%;
+  height: 100px;
+  background-image: linear-gradient(to left bottom,#1dd1a1,#10ac84);
+}
+.orange{
+  color:orange;
+}
