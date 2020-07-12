@@ -7,6 +7,16 @@
     transition: all 0.2s;
     border-radius: 3px;
 }
+.skills_edit{
+    list-style: none;
+    background-color:#435246;
+    margin-bottom: 2px;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 3px;
+    color: #fff;
+}
 /* .skills_list:hover{
     transform: rotateX(20deg);
 } */
@@ -46,4 +56,9 @@
 .education_title{
     font-size: 1.5rem;
     font-weight: 400;
+}
+.register_to_login{
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
 }

@@ -8,6 +8,10 @@ function Skill(props) {
     const [input,setInput] = useState("");
     const [stars,setStars] = useState(1);
     const [skills,setSkills] = useState(props.skills);
+    const [editState,SetEditstate] = useState(false);
+    const [skillIndex,setSkillIndex] = useState("")
+    const [listIndex,setListIndex] = useState("")
+
 
     useEffect(() => {
         setSkills(props.skills);
@@ -21,6 +25,9 @@ function Skill(props) {
     }
 
     const onAddSkillHandler = () => {
+        if( editState ){
+            SetEditstate(false);
+        }
         if (input !== ""){
             axios({
                 method: 'post',
@@ -49,32 +56,77 @@ function Skill(props) {
         axios.delete(`http://localhost:8000/api/skills/${skill.id}/`)
         .then(response => {getUpdateskills()})
     }
+    const editSkill = (skill,index) => {
+        setInput(skill.title);
+        setStars(skill.level);
+        SetEditstate(true);
+        setSkillIndex(skill.id)
+        setListIndex(index)
+        // axios.delete(`http://localhost:8000/api/skills/${skill.id}/`)
+    }
+    const saveEditSkill = (skill) => {
+        axios({
+            method: 'put',
+            url: `http://localhost:8000/api/skills/${skillIndex}/`,
+            data: {
+                profile: props.user.id,
+                "title": input,
+                "level": stars
+            }
+        }).then(res => getUpdateskills());
+        SetEditstate(false);
+        setInput("");
+        setStars(1);
+    }
+    let skillsIntegrate=(
+        <div>{skills.map((skill,index) => {
+            return (<li key={uuid()} className={listIndex===index && editState?"skills_edit":"skills_list"}
 
-    let skillsIntegrate = (
-        <div>{skills.map(skill => {
-            return (<li key={uuid()} className="skills_list"
-                onClick={onHandlerSkill(skill.title)}>{skill.title}
+                        onClick={onHandlerSkill(skill.title)}>{skill.title}
                     <Stars stars={skill.level} />
-                    <i className="fas fa-edit"></i>
-                    <i className="fas fa-trash mx-2" onClick={removeSkill(skill)}></i>
                 </li>)
         })}
         </div>
     )
+
+    if(props.token){
+        skillsIntegrate = (
+            <div>{skills.map((skill,index) => {
+                return (<li key={uuid()} className={listIndex===index && editState?"skills_edit":"skills_list"}
     
+                            onClick={onHandlerSkill(skill.title)}>{skill.title}
+                        <Stars stars={skill.level} />
+                        <i className="fas fa-edit" onClick={() => editSkill(skill,index)}></i>
+                        <i className="fas fa-trash mx-2" onClick={removeSkill(skill)}></i>
+                    </li>)
+            })}
+            </div>
+        )
+    }
+    
+
     return (
         <div>
             {skillsIntegrate}
-            <label htmlFor="skill">add skill</label>
-            <input type="text" value={input} className="form-control mb-2" id="skill" onChange={onChangeInputHandler}></input>
-            <select id="level" className="form-control" onChange={onchangeStarsHandler}>
-                <option value="1">در حد آشنایی</option>
-                <option value="2">تا حدودی</option>
-                <option value="3">به طور متوسط</option>
-                <option value="4">مسلط</option>
-                <option value="5">کاملا مسلط</option>
-            </select>
-            <span className="btn btn-primary mt-2" onClick={onAddSkillHandler}>click here!</span>
+            {props.token?<>
+                <label htmlFor="skill">add skill</label>
+                <input type="text" value={input} className="form-control mb-2" id="skill" onChange={onChangeInputHandler}></input>
+                <select id="level" className="form-control" onChange={onchangeStarsHandler}>
+                    <option value="1">در حد آشنایی</option>
+                    <option value="2">تا حدودی</option>
+                    <option value="3">به طور متوسط</option>
+                    <option value="4">مسلط</option>
+                    <option value="5">کاملا مسلط</option>
+                </select>
+                { editState ? 
+                    <span className="btn btn-success mt-2" onClick={saveEditSkill}>
+                        save
+                    </span>
+                    : <span className="btn btn-primary mt-2" onClick={onAddSkillHandler}>
+                        Click to Add
+                    </span>}
+            </>:""}
+            
         </div>
     )
 }

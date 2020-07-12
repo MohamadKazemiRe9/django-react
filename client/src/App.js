@@ -6,13 +6,23 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./components/About";
 import Education from './components/Education';
+import { withCookies } from "react-cookie";
+import Navigation from "./components/navigation/Navigation";
 
-function App() {
+function App(props) {
   const [user , setUser] = useState({});
   const [skills , setSkills] = useState([]);
   const [educations , setEducations] = useState([]);
   const [description , setDescription] = useState("");
+  const [token,setToken] = useState("");
+  const [authentication,setAuthentication] = useState(false);
+
+  useEffect(() => {
+    setToken(props.cookies.get("user-token"));
+    setAuthentication(true)
+  },[props.token]); 
   
+
   useEffect(()=>{
     axios.get("http://localhost:8000/api/profiles/1/")
       .then(response => { 
@@ -26,11 +36,12 @@ function App() {
   return (
     <div className="contain">
       <Header/>
+      <Navigation />
       <About description={description}/>
         <div className="App d-flex justify-content-center">
           <div className="col-12 col-md-8 col-lg-6 text-center">
             <p>{user.username}</p>
-            <Skill skills={skills} user={user} />
+            <Skill skills={skills} user={user} token={token} />
             <Education educations={educations}/>
         </div>
       </div>
@@ -39,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default withCookies(App);
