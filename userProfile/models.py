@@ -3,9 +3,6 @@ from django.conf import settings
 
 class Profile (models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
-    description = models.TextField(null=True,blank=True)
-    # skill = models.ManyToManyField("Skills" , related_name="skills")
-    education = models.ManyToManyField("Education" , related_name="education")
 
     def __str__(self):
         return str(self.user)
@@ -29,10 +26,20 @@ class Skills (models.Model):
         return self.title
 
 class Education (models.Model):
-    title = models.CharField(max_length=20)
+    profile = models.ForeignKey("Profile",related_name="education",on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,null=True,blank=True)
+    location = models.CharField(max_length=50,null=True,blank=True)
     start = models.DateField()
-    end = models.DateField()
+    end = models.DateField(null=True,blank=True)
 
 
     def __str__(self):
         return self.title
+
+class Description(models.Model):
+    profile = models.OneToOneField("Profile",related_name="description",on_delete=models.CASCADE)
+    text = models.TextField(default="Please write something about yourself...!")
+    update = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text

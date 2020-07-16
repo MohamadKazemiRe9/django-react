@@ -9,8 +9,8 @@ function Skill(props) {
     const [stars,setStars] = useState(1);
     const [skills,setSkills] = useState(props.skills);
     const [editState,SetEditstate] = useState(false);
-    const [skillIndex,setSkillIndex] = useState("")
-    const [listIndex,setListIndex] = useState("")
+    const [skillIndex,setSkillIndex] = useState("");
+    const [listIndex,setListIndex] = useState("");
 
 
     useEffect(() => {
@@ -24,6 +24,7 @@ function Skill(props) {
         setStars(parseInt(e.target.value));
     }
 
+    let newSkills =[]
     const onAddSkillHandler = () => {
         if( editState ){
             SetEditstate(false);
@@ -37,7 +38,11 @@ function Skill(props) {
                     "title": input,
                     "level": stars
                 }
-            }).then(res => getUpdateskills());
+            }).then(res =>{
+                newSkills=[...skills,res.data];
+                setSkills(newSkills);
+                newSkills=[];
+            });
             setInput("");
         }
     }
@@ -54,8 +59,18 @@ function Skill(props) {
 
     const removeSkill = skill => event =>{
         axios.delete(`http://localhost:8000/api/skills/${skill.id}/`)
-        .then(response => {getUpdateskills()})
+        .then(response => {
+            newSkills=skills.filter(elem => elem !== skill);
+            setSkills(newSkills);
+            newSkills=[];
+        });
     }
+    const leaveSkill = () =>{
+        setInput("");
+        setStars(1);
+        SetEditstate(false);
+    }
+
     const editSkill = (skill,index) => {
         setInput(skill.title);
         setStars(skill.level);
@@ -89,14 +104,15 @@ function Skill(props) {
         </div>
     )
 
-    if(props.token){
+    if(props.userAuth === props.user.username){
         skillsIntegrate = (
             <div>{skills.map((skill,index) => {
                 return (<li key={uuid()} className={listIndex===index && editState?"skills_edit":"skills_list"}
     
                             onClick={onHandlerSkill(skill.title)}>{skill.title}
                         <Stars stars={skill.level} />
-                        <i className="fas fa-edit" onClick={() => editSkill(skill,index)}></i>
+                        {listIndex===index && editState?<i className="fas fa-times" onClick={leaveSkill}></i>
+                            : <i className="fas fa-edit" onClick={() => editSkill(skill,index)}></i>}
                         <i className="fas fa-trash mx-2" onClick={removeSkill(skill)}></i>
                     </li>)
             })}
@@ -108,7 +124,7 @@ function Skill(props) {
     return (
         <div>
             {skillsIntegrate}
-            {props.token?<>
+            {props.userAuth === props.user.username?<>
                 <label htmlFor="skill">add skill</label>
                 <input type="text" value={input} className="form-control mb-2" id="skill" onChange={onChangeInputHandler}></input>
                 <select id="level" className="form-control" onChange={onchangeStarsHandler}>
@@ -122,7 +138,7 @@ function Skill(props) {
                     <span className="btn btn-success mt-2" onClick={saveEditSkill}>
                         save
                     </span>
-                    : <span className="btn btn-primary mt-2" onClick={onAddSkillHandler}>
+                    : <span className="btn_education_form" onClick={onAddSkillHandler}>
                         Click to Add
                     </span>}
             </>:""}

@@ -59,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'resume.urls'
+APPEND_SLASH = False
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",

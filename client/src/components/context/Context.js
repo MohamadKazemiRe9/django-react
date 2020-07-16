@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
 
-const NavbarContext = React.createContext({
-    navbarState : navState,
-});
+const [userData,setUserData] = useState([]);
+
+useEffect(()=>{
+    axios.get("http://localhost:8000/api/profiles/")
+      .then(response => { setUserData(response.data) });
+  },[]);
+
+  const usernameList = userData.map(user => {
+    return user.user.username;
+  });
+
 
 export default props => {
     const [navState,setNavState] = useState(false);

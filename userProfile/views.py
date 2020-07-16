@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets , permissions
-from .models import Profile , Skills , Education
-from .serializers import ProfileSerializer,SkillsSerializer,EducationSerializer,UserSerializers
+from .models import Profile , Skills , Education , Description
+from .serializers import ProfileSerializer,SkillsSerializer,EducationSerializer,UserSerializers,DescriptionSerializer
 from rest_framework.decorators import action
 # from users.models import MyUser as User
 from django.contrib.auth import get_user_model
@@ -34,6 +34,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class SkillsViewSet(viewsets.ModelViewSet):
     queryset = Skills.objects.all()
     serializer_class = SkillsSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+class DescriptionViewSet(viewsets.ModelViewSet):
+    queryset = Description.objects.all()
+    serializer_class = DescriptionSerializer
     permission_classes = [
         permissions.AllowAny
     ]

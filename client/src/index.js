@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,12 +7,13 @@ import {Route , BrowserRouter} from "react-router-dom";
 import Login from "./components/Login";
 import { CookiesProvider } from "react-cookie";
 import Register from "./components/Register";
+import Resume from "./components/Resume";
 
 const routing = (
   <BrowserRouter>
     <CookiesProvider>
       <div>
-        <Route exact path="/" component={App} />
+        <Route exact path="" component={Resume} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
       </div>

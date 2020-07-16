@@ -1,6 +1,4 @@
-.navigation{
-    
-}
+
 .navigation_background{
     height: 3rem;
     width: 3rem;
@@ -114,10 +112,23 @@
     background-color:transparent;
 }
 .navigation_checkbox:checked ~ .navigation_button .navigation_icon::before{
+    background-color:#1dd1a1;
     transform:rotate(45deg);
     top: 0;
 }
 .navigation_checkbox:checked ~ .navigation_button .navigation_icon::after{
+    background-color:#1dd1a1;
     transform:rotate(-45deg);
     top: 0;
 }
+.navigation_checkbox:checked:hover ~ .navigation_button .navigation_icon::before{
+    background-color:#1dd1a1;
+    transform:rotate(-45deg);
+    top: 0;
+}
+.navigation_checkbox:checked:hover ~ .navigation_button .navigation_icon::after{
+    background-color:#1dd1a1;
+    transform:rotate(45deg);
+    top: 0;
+}
+

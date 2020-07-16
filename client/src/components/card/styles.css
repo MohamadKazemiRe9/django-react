@@ -1,0 +1,66 @@
+.card{
+    perspective: 70rem;
+    -moz-perspective: 70rem;
+    position: relative;
+    cursor: pointer;
+    display: block;
+    height: 14rem;
+    border:none;
+}
+.card_side{
+    transition: all 1s cubic-bezier(0,.15,.52,1.95);
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    height: 100%;
+    text-align: center;
+    padding:1rem 0.3rem;
+    border-radius: 2%;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.card_side_front{
+
+}
+.card_side_back{
+    background-color: orange;
+    transform: rotateY(180deg);
+}
+
+.card:hover .card_side_front{
+    transform: rotateY(-180deg);
+}
+.card:hover .card_side_back{
+    transform: rotateY(0deg);
+}
+
+.card_background_red{
+    background-image: linear-gradient(to top left,#EA2027,#FFC312);
+}
+.card_background_red_revere{
+    background-image: linear-gradient(to bottom right,#EA2027,#FFC312);
+}
+.card_background_green{
+    background-image: linear-gradient(to top left,#0d6650,#29e6b3);
+}
+.card_background_green_revere{
+    background-image: linear-gradient(to bottom right,#0d6650,#29e6b3);
+}
+.card_background_blue{
+    background-image: linear-gradient(to top left,#1B1464,#12CBC4);
+}
+.card_background_blue_revere{
+    background-image: linear-gradient(to bottom right,#1B1464,#12CBC4);
+}
+
+.card_trash_icon{
+    bottom:10%;
+    position: absolute;
+    transition: all 0.2s;
+}
+.card_trash_icon:hover{
+    transform: scale(2);
+}
